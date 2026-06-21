@@ -10,7 +10,7 @@ The project includes:
 
 * Data preprocessing and annotation conversion
 * YOLO format dataset generation
-* Training and evaluation using YOLOv8
+* Training and evaluation using YOLOv8n
 * Analysis of model performance and predictions
 
 ## Dataset
@@ -67,17 +67,39 @@ Spark_Model/
 * PyTorch
 * Ultralytics YOLOv8n
 
-## Training
+## Results
 
-Model:
-
-* YOLOv8n
+The model was trained using YOLOv8n on the SPARK 2022 dataset.
 
 Training configuration:
 
+* Model: YOLOv8n
+* Epochs: 10
 * Image size: 1024×1024
-* Batch size: 2
+* Batch size: 6
 * Optimizer: AdamW
+
+Validation metrics:
+
+| Metric    | Value |
+| --------- | ----- |
+| Precision | 0.287 |
+| Recall    | 0.321 |
+| mAP50     | 0.196 |
+| mAP50-95  | 0.123 |
+
+Per-class performance highlights:
+
+* Best performing class: `smart_1` (mAP50 = 0.308)
+* Strong results on `double_star`, `cheops`, and `lisa_pathfinder`
+* Lower performance on `earth_observation_sat_1` and `debris`
+
+Observations:
+
+* The model successfully learned to localize and classify spacecraft objects.
+* Validation predictions show meaningful detections after training.
+* Some classes remain challenging due to visual similarity and object orientation.
+* Further improvements may be achieved through longer training, hyperparameter tuning, and larger model variants.
 
 ## Citation
 
