@@ -1,3 +1,5 @@
 data/
-*.pt
 runs/
+
+yolov8*.pt
+!models/*.pt
