@@ -69,37 +69,71 @@ Spark_Model/
 
 ## Results
 
-The model was trained using YOLOv8n on the SPARK 2022 dataset.
+Two training experiments were conducted using YOLOv8n on the SPARK 2022 dataset.
 
-Training configuration:
+### Training Configuration
 
-* Model: YOLOv8n
-* Epochs: 10
-* Image size: 1024×1024
-* Batch size: 6
-* Optimizer: AdamW
+| Parameter | Value |
+|-----------|-------|
+| Model | YOLOv8n |
+| Image Size | 1024 × 1024 |
+| Batch Size | 6 |
+| Optimizer | AdamW |
 
-Validation metrics:
+### Model Comparison
 
-| Metric    | Value |
-| --------- | ----- |
-| Precision | 0.287 |
-| Recall    | 0.321 |
-| mAP50     | 0.196 |
-| mAP50-95  | 0.123 |
+| Metric | Model A (10 Epochs) | Model B (30 Epochs Total) |
+|--------|--------------------:|--------------------------:|
+| Precision | 0.287 | **0.431** |
+| Recall | 0.321 | **0.513** |
+| mAP50 | 0.196 | **0.347** |
+| mAP50-95 | 0.123 | **0.243** |
 
-Per-class performance highlights:
+### Training Strategy
 
-* Best performing class: `smart_1` (mAP50 = 0.308)
-* Strong results on `double_star`, `cheops`, and `lisa_pathfinder`
-* Lower performance on `earth_observation_sat_1` and `debris`
+**Model A**
 
-Observations:
+- Trained for **10 epochs** from pretrained YOLOv8n weights.
+- Used as the baseline model.
 
-* The model successfully learned to localize and classify spacecraft objects.
-* Validation predictions show meaningful detections after training.
-* Some classes remain challenging due to visual similarity and object orientation.
-* Further improvements may be achieved through longer training, hyperparameter tuning, and larger model variants.
+**Model B**
+
+- Initialized from the **best weights of Model A**.
+- Continued training for an additional **20 epochs**.
+- Total effective training: **30 epochs**.
+
+### Performance Improvements
+
+Compared with the initial model, the continued training achieved:
+
+- Precision: **0.287 → 0.431**
+- Recall: **0.321 → 0.513**
+- mAP50: **0.196 → 0.347**
+- mAP50-95: **0.123 → 0.243**
+
+### Per-Class Performance (Final Model)
+
+| Class | mAP50 | mAP50-95 |
+|------|------:|---------:|
+| cheops | 0.374 | 0.274 |
+| debris | 0.209 | 0.148 |
+| double_star | **0.456** | **0.316** |
+| earth_observation_sat_1 | 0.156 | 0.100 |
+| lisa_pathfinder | 0.375 | 0.293 |
+| proba_2 | 0.338 | 0.248 |
+| proba_3_csc | 0.389 | 0.264 |
+| proba_3_ocs | 0.428 | 0.308 |
+| smart_1 | 0.449 | 0.281 |
+| soho | 0.396 | 0.281 |
+| xmm_newton | 0.247 | 0.164 |
+
+### Observations
+
+- Continued training substantially improved all evaluation metrics.
+- The model successfully learned to localize and classify spacecraft across all 11 classes.
+- Best performance was achieved on **double_star**, **smart_1**, **proba_3_ocs**, and **soho**.
+- Lower performance on **earth_observation_sat_1** and **debris** indicates these classes remain challenging due to appearance variability and limited discriminative features.
+- Qualitative inspection of validation predictions shows noticeably better localization accuracy after continued training.
 
 ## Citation
 
